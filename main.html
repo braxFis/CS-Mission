@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <title>22-dagars FACEIT-schema</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: #020617;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      border: 1px solid #1f2937;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+      color: #f9fafb;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin-bottom: 20px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      border: 1px solid #374151;
+      color: #d1d5db;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .section {
+      margin-bottom: 16px;
+      border-radius: 10px;
+      background: #020617;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      background: linear-gradient(90deg, #111827, #020617);
+    }
+
+    .section-header:hover {
+      background: linear-gradient(90deg, #1f2937, #020617);
+    }
+
+    .section-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .section-meta {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .chevron {
+      margin-left: 10px;
+      font-size: 0.85rem;
+      transition: transform 0.2s ease;
+    }
+
+    .chevron.open {
+      transform: rotate(90deg);
+    }
+
+    .section-content {
+      padding: 10px 14px 14px 14px;
+      border-top: 1px solid #1f2937;
+      display: none;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .section-content ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .section-content li {
+      margin-bottom: 6px;
+    }
+
+    .bullet-label {
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      margin-left: 6px;
+    }
+
+    .pill-blue {
+      background: rgba(59, 130, 246, 0.16);
+      color: #bfdbfe;
+      border: 1px solid rgba(59, 130, 246, 0.5);
+    }
+
+    .pill-green {
+      background: rgba(22, 163, 74, 0.16);
+      color: #bbf7d0;
+      border: 1px solid rgba(22, 163, 74, 0.5);
+    }
+
+    .pill-yellow {
+      background: rgba(234, 179, 8, 0.18);
+      color: #facc15;
+      border: 1px solid rgba(234, 179, 8, 0.5);
+    }
+
+    .pill-red {
+      background: rgba(248, 113, 113, 0.18);
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+    }
+
+    .section-group-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .divider {
+      height: 1px;
+      background: radial-gradient(circle, #4b5563 0, transparent 70%);
+      margin: 18px 0;
+      opacity: 0.7;
+    }
+
+    .summary-box {
+      margin-top: 4px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #374151;
+      font-size: 0.85rem;
+      color: #d1d5db;
+    }
+
+    .summary-box strong {
+      color: #e5e7eb;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 1.4rem;
+      }
+      .section-header {
+        padding: 10px 12px;
+      }
+      .section-content {
+        padding: 8px 12px 12px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>22-dagars FACEIT-schema</h1>
+    <div class="subtitle">
+      300 matcher • 150 wins • Fokus på tempo, tilt-kontroll och konsekvent spel
+    </div>
+
+    <div class="tags">
+      <span class="tag">Grind</span>
+      <span class="tag">Tilt-kontroll</span>
+      <span class="tag">Winrate-fokus</span>
+      <span class="tag">Block-upplägg</span>
+    </div>
+
+    <!-- DAG 1–3 -->
+    <div class="section" data-open="true">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Dag 1–3: Kickstart
+            <span class="pill pill-blue">45 matcher</span>
+          </div>
+          <div class="section-meta">Hård start för momentum och självförtroende</div>
+        </div>
+        <div class="chevron open">▶</div>
+      </div>
+      <div class="section-content" style="display:block;">
+        <div class="section-group-label">Upplägg</div>
+        <ul>
+          <li><span class="bullet-label">Matcher per dag:</span> ca 15</li>
+          <li><span class="bullet-label">Blocks:</span> 3–4 per dag</li>
+          <li><span class="bullet-label">Fokus:</span> kills, MVPs, headshots</li>
+          <li><span class="bullet-label">Tid på dagen:</span> spela när du är pigg (inte sent på natten)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAG 4–7 -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Dag 4–7: Stabil grind
+            <span class="pill pill-blue">55 matcher</span>
+          </div>
+          <div class="section-meta">Bygg rutin utan att dö mentalt</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <div class="section-group-label">Upplägg</div>
+        <ul>
+          <li><span class="bullet-label">Matcher per dag:</span> 12–14</li>
+          <li><span class="bullet-label">Blocks:</span> 3 per dag</li>
+          <li><span class="bullet-label">Fokus:</span> stabilt spel, undvik tilt</li>
+          <li><span class="bullet-label">Tips:</span> undvik sena kvällar (mer tilt, fler smurfs)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAG 8–10 -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Dag 8–10: Mini-push
+            <span class="pill pill-blue">40 matcher</span>
+          </div>
+          <div class="section-meta">Tryck upp tempot och bygg ledning</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <div class="section-group-label">Upplägg</div>
+        <ul>
+          <li><span class="bullet-label">Matcher per dag:</span> 13–14</li>
+          <li><span class="bullet-label">Fokus:</span> headshots + MVPs</li>
+          <li><span class="bullet-label">Kartor:</span> håll dig till 1–2 kartor för konsekvens</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAG 11 -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Dag 11: Halvvila
+            <span class="pill pill-yellow">10 matcher</span>
+          </div>
+          <div class="section-meta">Låt hjärnan hämta andan</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <div class="section-group-label">Upplägg</div>
+        <ul>
+          <li><span class="bullet-label">Matcher:</span> max 10 lugna matcher</li>
+          <li><span class="bullet-label">Fokus:</span> inget tilt, bara steady spel</li>
+          <li><span class="bullet-label">Syfte:</span> bygga om fokus inför andra halvan</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAG 12–15 -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Dag 12–15: Andra pushen
+            <span class="pill pill-blue">55 matcher</span>
+          </div>
+          <div class="section-meta">Kom upp runt 200 matcher totalt</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <div class="section-group-label">Upplägg</div>
+        <ul>
+          <li><span class="bullet-label">Matcher per dag:</span> 13–14</li>
+          <li><span class="bullet-label">Fokus:</span> stabil winrate (50–55 %+)</li>
+          <li><span class="bullet-label">Stack:</span> försök spela med samma duo/trio</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAG 16–18 -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Dag 16–18: Kontrollfas
+            <span class="pill pill-blue">40 matcher</span>
+          </div>
+          <div class="section-meta">Håll tempo, undvik att bränna ut dig</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <div class="section-group-label">Upplägg</div>
+        <ul>
+          <li><span class="bullet-label">Matcher per dag:</span> 12–13</li>
+          <li><span class="bullet-label">Fokus:</span> kills + headshots</li>
+          <li><span class="bullet-label">Tips:</span> ta paus direkt vid tilt</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAG 19 -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Dag 19: Lugn dag
+            <span class="pill pill-yellow">10 matcher</span>
+          </div>
+          <div class="section-meta">Ladda för sista pushen</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <div class="section-group-label">Upplägg</div>
+        <ul>
+          <li><span class="bullet-label">Matcher:</span> ungefär 10</li>
+          <li><span class="bullet-label">Fokus:</span> bara spela när du känner dig fräsch</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DAG 20–22 -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Dag 20–22: Sista pushen
+            <span class="pill pill-blue">45 matcher</span>
+          </div>
+          <div class="section-meta">Stäng utmaningen, fokusera på wins</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <div class="section-group-label">Upplägg</div>
+        <ul>
+          <li><span class="bullet-label">Matcher per dag:</span> ca 15</li>
+          <li><span class="bullet-label">Fokus:</span> vinster > allt annat</li>
+          <li><span class="bullet-label">Stack:</span> spela med bästa möjliga lag</li>
+          <li><span class="bullet-label">Tips:</span> undvik nattmatcher, minimera tilt</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TILT-KONTROLL -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Tilt-kontroll
+            <span class="pill pill-red">Mental game</span>
+          </div>
+          <div class="section-meta">Mindre tilt = fler wins = fler MVPs</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <ul>
+          <li><span class="bullet-label">Auto-paus:</span> ta paus efter 2 förluster i rad</li>
+          <li><span class="bullet-label">Dricka:</span> vatten främst, inte bara energidryck</li>
+          <li><span class="bullet-label">Tid:</span> undvik nattmatcher (mer toxic, fler smurfs)</li>
+          <li><span class="bullet-label">Känsla:</span> spela inte om du redan är irriterad</li>
+          <li><span class="bullet-label">Scoreboard:</span> stäng av om du börjar stressa av stats</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- WINRATE-STRATEGI -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Winrate-strategi
+            <span class="pill pill-green">Smart grind</span>
+          </div>
+          <div class="section-meta">Spela för vinster, inte bara för highlight-kills</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <ul>
+          <li><span class="bullet-label">Kartor:</span> håll dig till 1–2 kartor (t.ex. Mirage/Inferno/Anubis)</li>
+          <li><span class="bullet-label">Stack:</span> spela med samma duo/trio när det går</li>
+          <li><span class="bullet-label">Spelstil:</span> prioritera att överleva rundor, inte onödiga peeks</li>
+          <li><span class="bullet-label">Utility:</span> använd smokes/flash/molotov smart för att vinna rundor</li>
+          <li><span class="bullet-label">Roller:</span> ta entry bara när du är varm och känner flow</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BLOCK-UPPLÄGG -->
+    <div class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">
+            Block-upplägg för 300 matcher
+            <span class="pill pill-yellow">Håll orken</span>
+          </div>
+          <div class="section-meta">Plan för hur du delar upp dagen</div>
+        </div>
+        <div class="chevron">▶</div>
+      </div>
+      <div class="section-content">
+        <ul>
+          <li><span class="bullet-label">Block 1:</span> 3 matcher → 15 min paus</li>
+          <li><span class="bullet-label">Block 2:</span> 3 matcher → 20 min paus</li>
+          <li><span class="bullet-label">Block 3:</span> 3 matcher → 30 min paus</li>
+          <li><span class="bullet-label">Block 4 (valfritt):</span> 2–3 matcher om du känner dig fräsch</li>
+        </ul>
+        <div class="summary-box">
+          <strong>Poängen:</strong> du spelar många matcher, men med kontrollerade pauser
+          så att du inte sabbar winrate med tilt-grind.
+        </div>
+      </div>
+    </div>
+
+    <!-- SAMMANFATTNING -->
+    <div class="summary-box">
+      <strong>Sammanfattning:</strong> Det här schemat är gjort för att klara 300 matcher,
+      runt 150 vinster och alla krav på kills/HS/MVPs på 22 dagar utan att du bränner ut dig.
+      Håll dig till blocken, respektera tilt-pausen och spela konsekvent – så maxar du dina chanser.
+    </div>
+
+    <div class="footer-note">
+      Kopiera filen som <strong>index.html</strong> och öppna i valfri webbläsare.
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const sections = document.querySelectorAll(".section");
+
+      sections.forEach(section => {
+        const header = section.querySelector(".section-header");
+        const content = section.querySelector(".section-content");
+        const chevron = section.querySelector(".chevron");
+
+        if (!header || !content || !chevron) return;
+
+        header.addEventListener("click", () => {
+          const isOpen = content.style.display === "block";
+          content.style.display = isOpen ? "none" : "block";
+          chevron.classList.toggle("open", !isOpen);
+        });
+      });
+    });
+  </script>
+</body>
+
+<div id="matchCounterBox" style="
+  margin: 20px 0;
+  padding: 16px;
+  background: rgba(15,23,42,0.8);
+  border: 1px solid #334155;
+  border-radius: 10px;
+  text-align: center;
+">
+  <div style="font-size: 1rem; margin-bottom: 8px; color: #e2e8f0;">
+    Matcher spelade av 300:
+  </div>
+
+  <input id="matchesPlayed" type="number" min="0" max="300" placeholder="Skriv antal..."
+    style="padding: 8px; width: 120px; border-radius: 6px; border: 1px solid #475569; background:#0f172a; color:#e2e8f0;">
+  
+  <button id="updateBtn" style="
+    padding: 8px 14px;
+    margin-left: 8px;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+  ">Uppdatera</button>
+
+  <div id="remainingMatches" style="margin-top: 12px; font-size: 0.95rem; color: #94a3b8;">
+    Återstående matcher: 300
+  </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll(".section");
+
+  // --- COLLAPSIBLE SECTIONS (original funktion) ---
+  sections.forEach(section => {
+    const header = section.querySelector(".section-header");
+    const content = section.querySelector(".section-content");
+    const chevron = section.querySelector(".chevron");
+
+    if (!header || !content || !chevron) return;
+
+    header.addEventListener("click", () => {
+      const isOpen = content.style.display === "block";
+      content.style.display = isOpen ? "none" : "block";
+      chevron.classList.toggle("open", !isOpen);
+    });
+  });
+
+  // --- MATCH COUNTER FUNKTION ---
+  const input = document.getElementById("matchesPlayed");
+  const output = document.getElementById("remainingMatches");
+  const button = document.getElementById("updateBtn");
+
+  // Ladda sparat värde
+  let saved = localStorage.getItem("matchesPlayed");
+  if (saved !== null) {
+    input.value = saved;
+    output.textContent = "Återstående matcher: " + (300 - saved);
+  }
+
+  button.addEventListener("click", () => {
+    let played = parseInt(input.value);
+
+    if (isNaN(played) || played < 0) played = 0;
+    if (played > 300) played = 300;
+
+    localStorage.setItem("matchesPlayed", played);
+
+    output.textContent = "Återstående matcher: " + (300 - played);
+  });
+});
+</script>
+</html>
